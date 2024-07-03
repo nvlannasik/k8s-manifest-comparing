@@ -1,0 +1,11 @@
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+metadata:
+  name: configmap-generator-dev-fe
+  labels:
+    app: configmap-generator-dev-fe
+configMapGenerator:
+  - name: configmap-fe
+    env: config.properties
+    options:
+      disableNameSuffixHash: true

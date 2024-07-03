@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-services
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth-services
+  template:
+    metadata:
+      name: auth-services
+      labels:
+        app: auth-services
+    spec:
+      containers:
+        - name: auth-services
+          image: nvlannasik/auth-services-nodejs:release-1.0.3
+          ports:
+            - name: auth-svc
+              containerPort: 3000
+          resources:
+            limits:
+              memory: 256Mi
+              cpu: 200m
+            requests:
+              memory: 128Mi
+              cpu: 100m
+          envFrom:
+            - configMapRef:
+                name: auth-configmap
+            - secretRef:
+                name: auth-services-secret

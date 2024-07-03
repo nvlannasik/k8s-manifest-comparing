@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: auth-configmap
+  namespace: default
+data:
+  PORT: "3000"
+  DB_MONGO_HOST: mongodb-auth-service-svc.database.svc.cluster.local
+  DB_MONGO_PORT: "27017"
+  NODE_ENV: test
+  HOST_SERVICES_PRODUCT: https://api.annasik.my.id

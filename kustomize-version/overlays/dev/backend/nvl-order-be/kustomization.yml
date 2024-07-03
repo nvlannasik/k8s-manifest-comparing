@@ -1,0 +1,96 @@
+resources:
+  - ../../../../base/dev
+
+components:
+  - ../../../../components/dev/backend
+
+commonAnnotations:
+  app: nvl-order
+
+namePrefix: nvl-order-dev-
+
+namespace: default
+
+patches:
+  - patch: |-
+      - op: replace
+        path: /metadata/name
+        value: svc-be
+      - op : replace
+        path: /metadata/labels/app
+        value: svc-be
+      - op: add
+        path: /metadata/annotations
+        value:
+          configmap.reloader.stakater.com/reload: "nvl-order-configmap-dev-be"
+      - op: add
+        path: /metadata/annotations
+        value:
+          secret.reloader.stakater.com/reload: "nvl-order-secret-dev-be"
+      - op: replace
+        path: /spec/selector/matchLabels/app
+        value: nvl-order-dev-svc-be
+      - op: replace
+        path: /spec/template/metadata/labels/app
+        value: nvl-order-dev-svc-be
+      - op: replace
+        path: /spec/template/spec/containers/0/name
+        value: nvl-order-container-be
+      - op: replace
+        path: /spec/template/spec/containers/0/image
+        value: nvlannasik/order-services-nodejs:release-1.0.3
+      - op: replace
+        path: /spec/template/spec/containers/0/ports/0/containerPort
+        value: 5200
+      - op: replace
+        path: /spec/template/spec/containers/0/envFrom/0/configMapRef/name
+        value: nvl-order-dev-configmap-be
+      - op: add
+        path: /spec/template/spec/containers/0/envFrom/-
+        value:
+          secretRef:
+            name: nvl-order-dev-secret-be
+
+    target:
+      kind: Deployment
+      name: base
+
+  - patch: |-
+      - op: replace
+        path: /metadata/name
+        value: service-be
+      - op: replace
+        path: /metadata/labels/app
+        value: service-be
+      - op: replace
+        path: /spec/selector/app
+        value: nvl-order-dev-svc-be
+      - op: replace
+        path: /spec/ports/0/port
+        value: 80
+      - op: replace
+        path: /spec/ports/0/targetPort
+        value: 3000
+    target:
+      kind: Service
+      name: base
+
+  - patch: |-
+      - op: replace
+        path: /metadata/name
+        value: ingress-svc-be
+      - op: replace
+        path: /spec/rules/0/host
+        value: api.annasik.my.id
+      - op: replace
+        path: /spec/rules/0/http/paths/0/path
+        value: "/api/order/"
+      - op: replace
+        path: /spec/rules/0/http/paths/0/backend/service/name
+        value: nvl-order-dev-service-be
+      - op: replace
+        path: /spec/rules/0/http/paths/0/backend/service/port/number
+        value: 80
+    target:
+      kind: Ingress
+      name: base

@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dashboard-services
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dashboard-services
+  template:
+    metadata:
+      name: dashboard-services
+      labels:
+        app: dashboard-services
+    spec:
+      containers:
+        - name: dashboard-services
+          image: nvlannasik/dashboard-services-nodejs:release-1.0.3
+          ports:
+            - name: dashboard-svc
+              containerPort: 3000
+          resources:
+            limits:
+              memory: 256Mi
+              cpu: 200m
+            requests:
+              memory: 128Mi
+              cpu: 100m
+          envFrom:
+            - configMapRef:
+                name: dashboard-configmap
+            - secretRef:
+                name: dashboard-services-secret
