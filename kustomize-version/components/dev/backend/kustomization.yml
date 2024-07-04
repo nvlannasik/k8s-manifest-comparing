@@ -9,5 +9,6 @@ configMapGenerator:
     env: config.properties
     options:
       disableNameSuffixHash: true
+
 generators:
   - secret-generator.yml

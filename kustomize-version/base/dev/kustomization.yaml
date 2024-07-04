@@ -6,6 +6,5 @@ resources:
   - deployment.yaml
   - ingress.yaml
   # - namespace.yaml
-
-generators:
-  - secret-generator.yml
+# generators:
+#   - secret-generator.yml
