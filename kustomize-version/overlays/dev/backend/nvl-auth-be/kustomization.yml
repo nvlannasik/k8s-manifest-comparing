@@ -49,7 +49,7 @@ patches:
         path: /spec/template/spec/containers/0/envFrom/-
         value:
           secretRef:
-            name: nvl-auth-dev-secret-be
+            name: secret-generator-test
 
     target:
       kind: Deployment
