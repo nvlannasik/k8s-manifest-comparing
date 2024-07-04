@@ -38,7 +38,7 @@ patches:
         value: nvl-auth-container-be
       - op: replace
         path: /spec/template/spec/containers/0/image
-        value: nvlannasik/auth-services-nodejs:release-1.0.3
+        value: nvlannasik/user-services-go:release-1.0.3
       - op: replace
         path: /spec/template/spec/containers/0/ports/0/containerPort
         value: 5200
